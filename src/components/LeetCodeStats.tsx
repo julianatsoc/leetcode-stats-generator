@@ -3,20 +3,22 @@ import axios from "axios";
 import { LeetCodeStats } from "../types/LeetCodeStats";
 import ProgressCircle from "./ProgressCircle";
 import CategoryProgress from "./CategoryProgress";
+import { useParams } from "react-router-dom";
 
-const API_URL = "http://localhost:3000/stats/";
-const USERNAME = "julianaatsoc04";
+const API_URL = "http://localhost:3001/stats/";
 
 const LeetCodeStatsComponent = () => {
+  const {username } = useParams<{ username: string }>();
   const [stats, setStats] = useState<LeetCodeStats | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
+    if (!username) return;
     const fetchStats = async () => {
       try {
         const response = await axios.get<LeetCodeStats>(
-          `${API_URL}${USERNAME}`
+          `${API_URL}${username}`
         );
         setStats(response.data);
         setError(null);
@@ -31,7 +33,7 @@ const LeetCodeStatsComponent = () => {
     };
 
     fetchStats();
-  }, []);
+  }, [username]);
 
   if (loading) return <p className="text-white">Loading...</p>;
   if (error) return <p className="text-red-500">{error}</p>;
@@ -62,7 +64,7 @@ const LeetCodeStatsComponent = () => {
   return (
     <div className="p-6 bg-stone-900 text-white rounded-lg shadow-lg w-lg ">
       <h2 className="text-lg font-semibold mb-4">
-        {USERNAME}'s LeetCode Stats
+        {username}'s LeetCode Stats
       </h2>
 
       <div className="flex gap-6 items-center">

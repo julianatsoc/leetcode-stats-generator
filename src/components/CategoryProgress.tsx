@@ -1,5 +1,3 @@
-import React from "react";
-
 interface CategoryProgressProps {
   label: string;
   solved: number;
