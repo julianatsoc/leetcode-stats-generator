@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { LeetCodeStats } from "../types/LeetCodeStats";
+import ProgressCircle from "./ProgressCircle";
+import CategoryProgress from "./CategoryProgress";
 
 const API_URL = "http://localhost:3000/stats/";
 const USERNAME = "julianaatsoc04";
@@ -58,87 +60,27 @@ const LeetCodeStatsComponent = () => {
   ];
 
   return (
-    <div className="p-6 bg-stone-900 text-white rounded-lg shadow-lg ">
+    <div className="p-6 bg-stone-900 text-white rounded-lg shadow-lg w-[400px] ">
       <h2 className="text-lg font-semibold mb-4">
         {USERNAME}'s LeetCode Stats
       </h2>
 
       <div className="flex gap-6 items-center">
-        <div className="relative flex flex-col items-center">
-          <svg width="80" height="80" viewBox="0 0 100 100">
-            <circle
-              cx="50"
-              cy="50"
-              r="40"
-              stroke="#444"
-              strokeWidth="6"
-              fill="none"
-            />
-            <circle
-              cx="50"
-              cy="50"
-              r="40"
-              stroke="yellow"
-              strokeWidth="6"
-              fill="none"
-              strokeDasharray="251.2"
-              strokeDashoffset={251.2 - (251.2 * totalProgress) / 100}
-              strokeLinecap="round"
-              transform="rotate(-90 50 50)"
-            />
-            <text
-              x="50"
-              y="55"
-              textAnchor="middle"
-              fontSize="16"
-              fill="white"
-              fontWeight="bold"
-            >
-              {stats.totalSolved}
-            </text>
-          </svg>
-          <span className="text-sm mt-2">Total Solved </span>
-
-          <span className="text-sm mt-2">
-            {" "}
-            {stats.totalSolved} / {stats.totalQuestions}
-          </span>
-        </div>
-
+        <ProgressCircle
+          progress={totalProgress}
+          totalSolved={stats.totalSolved}
+          totalQuestions={stats.totalQuestions}
+        />
         <div className="flex-1">
-          {categories.map(({ label, solved, total, color }) => {
-            const progress = (solved / total) * 100;
-            return (
-              <div key={label} className="mb-4">
-                <div className="flex justify-between text-sm mb-1">
-                  <span>{label}</span>
-                  <span>
-                    {solved} / {total}
-                  </span>
-                </div>
-                <svg width="100%" height="10">
-                  <line
-                    x1="0"
-                    y1="5"
-                    x2="100%"
-                    y2="5"
-                    stroke="#444"
-                    strokeWidth="4"
-                    strokeLinecap="round"
-                  />
-                  <line
-                    x1="0"
-                    y1="5"
-                    x2={`${progress}%`}
-                    y2="5"
-                    stroke={color}
-                    strokeWidth="4"
-                    strokeLinecap="round"
-                  />
-                </svg>
-              </div>
-            );
-          })}
+          {categories.map(({ label, solved, total, color }) => (
+            <CategoryProgress
+              key={label}
+              label={label}
+              solved={solved}
+              total={total}
+              color={color}
+            />
+          ))}
         </div>
       </div>
     </div>
