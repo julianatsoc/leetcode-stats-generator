@@ -8,129 +8,139 @@ const USERNAME = "julianaatsoc04";
 const LeetCodeStatsComponent = () => {
   const [stats, setStats] = useState<LeetCodeStats | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    axios
-      .get<LeetCodeStats>(`${API_URL}${USERNAME}`)
-      .then((response) => {
+    const fetchStats = async () => {
+      try {
+        const response = await axios.get<LeetCodeStats>(
+          `${API_URL}${USERNAME}`
+        );
         setStats(response.data);
         setError(null);
-      })
-      .catch((error) => {
-        setError("Erro ao buscar dados: " + error.message);
-        console.error("Erro ao buscar dados:", error);
-      });
+      } catch (error: unknown) {
+        const errorMessage =
+          error instanceof Error ? error.message : String(error);
+        setError("Error fetching data: " + errorMessage);
+        console.error("Error fetching data:", errorMessage);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStats();
   }, []);
 
-  if (error) return <p>{error}</p>;
-  if (!stats) return <p>Carregando...</p>;
+  if (loading) return <p className="text-white">Loading...</p>;
+  if (error) return <p className="text-red-500">{error}</p>;
+  if (!stats) return <p className="text-white">No data available.</p>;
 
-  const solvedPercentage = (stats.totalSolved / stats.totalQuestions) * 100;
-  const easySolvedPercentage = (stats.easySolved / stats.totalEasy) * 100;
-  const mediumSolvedPercentage = (stats.mediumSolved / stats.totalMedium) * 100;
-  const hardSolvedPercentage = (stats.hardSolved / stats.totalHard) * 100;
-
-  const svgWidth = 120;
-  const svgHeight = 120;
-  const radius = 90;
-  const circumference = 2 * Math.PI * radius;
-
-  const easyStrokeDashoffset =
-    circumference - (easySolvedPercentage / 100) * circumference;
-  const mediumStrokeDashoffset =
-    circumference - (mediumSolvedPercentage / 100) * circumference;
-  const hardStrokeDashoffset =
-    circumference - (hardSolvedPercentage / 100) * circumference;
+  const totalProgress = (stats.totalSolved / stats.totalQuestions) * 100;
+  const categories = [
+    {
+      label: "Easy",
+      solved: stats.easySolved,
+      total: stats.totalEasy,
+      color: "green",
+    },
+    {
+      label: "Medium",
+      solved: stats.mediumSolved,
+      total: stats.totalMedium,
+      color: "orange",
+    },
+    {
+      label: "Hard",
+      solved: stats.hardSolved,
+      total: stats.totalHard,
+      color: "red",
+    },
+  ];
 
   return (
-    <div className="flex flex-row items-center gap-4 p-4 bg-white shadow-md rounded-lg max-w-sm w-full">
-      <h2 className="text-xl font-semibold text-center text-gray-800">
+    <div className="p-6 bg-stone-900 text-white rounded-lg shadow-lg ">
+      <h2 className="text-lg font-semibold mb-4">
         {USERNAME}'s LeetCode Stats
       </h2>
 
-      <svg
-        width={svgWidth}
-        height={svgHeight}
-        viewBox="0 0 200 200"
-        xmlns="http://www.w3.org/2000/svg"
-        enableBackground={"#000000"}
-      >
-        <circle
-          cx="100"
-          cy="100"
-          r={radius}
-          fill="none"
-          stroke="#e0e0e0"
-          strokeWidth="10"
-        />
+      <div className="flex gap-6 items-center">
+        <div className="relative flex flex-col items-center">
+          <svg width="80" height="80" viewBox="0 0 100 100">
+            <circle
+              cx="50"
+              cy="50"
+              r="40"
+              stroke="#444"
+              strokeWidth="6"
+              fill="none"
+            />
+            <circle
+              cx="50"
+              cy="50"
+              r="40"
+              stroke="yellow"
+              strokeWidth="6"
+              fill="none"
+              strokeDasharray="251.2"
+              strokeDashoffset={251.2 - (251.2 * totalProgress) / 100}
+              strokeLinecap="round"
+              transform="rotate(-90 50 50)"
+            />
+            <text
+              x="50"
+              y="55"
+              textAnchor="middle"
+              fontSize="16"
+              fill="white"
+              fontWeight="bold"
+            >
+              {stats.totalSolved}
+            </text>
+          </svg>
+          <span className="text-sm mt-2">Total Solved </span>
 
-        <circle
-          cx="100"
-          cy="100"
-          r={radius}
-          fill="none"
-          stroke="#4CAF50" // Verde
-          strokeWidth="10"
-          strokeDasharray={circumference}
-          strokeDashoffset={easyStrokeDashoffset}
-          strokeLinecap="round"
-          transform="rotate(-90 100 100)"
-        />
+          <span className="text-sm mt-2">
+            {" "}
+            {stats.totalSolved} / {stats.totalQuestions}
+          </span>
+        </div>
 
-        <circle
-          cx="100"
-          cy="100"
-          r={radius}
-          fill="none"
-          stroke="#FF9800"
-          strokeWidth="10"
-          strokeDasharray={circumference}
-          strokeDashoffset={mediumStrokeDashoffset}
-          strokeLinecap="round"
-          transform="rotate(-90 100 100)"
-        />
-
-        <circle
-          cx="100"
-          cy="100"
-          r={radius}
-          fill="none"
-          stroke="#F44336"
-          strokeWidth="10"
-          strokeDasharray={circumference}
-          strokeDashoffset={hardStrokeDashoffset}
-          strokeLinecap="round"
-          transform="rotate(-90 100 100)"
-        />
-
-        <text
-          x="50%"
-          y="50%"
-          textAnchor="middle"
-          dy=".3em"
-          fontSize="20"
-          fill="#4CAF50"
-        >
-          {Math.round(solvedPercentage)}%
-        </text>
-      </svg>
-
-      <p className="text-sm text-gray-600 mt-2">
-        Total de questões resolvidas: {stats.totalSolved} de{" "}
-        {stats.totalQuestions} ({Math.round(solvedPercentage)}%)
-      </p>
-      <p className="text-sm text-gray-600">
-        Easy: {stats.easySolved} de {stats.totalEasy} (
-        {Math.round(easySolvedPercentage)}%)
-      </p>
-      <p className="text-sm text-gray-600">
-        Medium: {stats.mediumSolved} de {stats.totalMedium} (
-        {Math.round(mediumSolvedPercentage)}%)
-      </p>
-      <p className="text-sm text-gray-600">
-        Hard: {stats.hardSolved} de {stats.totalHard} (
-        {Math.round(hardSolvedPercentage)}%)
-      </p>
+        <div className="flex-1">
+          {categories.map(({ label, solved, total, color }) => {
+            const progress = (solved / total) * 100;
+            return (
+              <div key={label} className="mb-4">
+                <div className="flex justify-between text-sm mb-1">
+                  <span>{label}</span>
+                  <span>
+                    {solved} / {total}
+                  </span>
+                </div>
+                <svg width="100%" height="10">
+                  <line
+                    x1="0"
+                    y1="5"
+                    x2="100%"
+                    y2="5"
+                    stroke="#444"
+                    strokeWidth="4"
+                    strokeLinecap="round"
+                  />
+                  <line
+                    x1="0"
+                    y1="5"
+                    x2={`${progress}%`}
+                    y2="5"
+                    stroke={color}
+                    strokeWidth="4"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </div>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 };
