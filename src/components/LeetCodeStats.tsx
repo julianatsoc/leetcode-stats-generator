@@ -6,7 +6,7 @@ import ProgressCircle from "./ProgressCircle";
 import CategoryProgress from "./CategoryProgress";
 import { useParams } from "react-router-dom";
 
-const API_URL = "http://localhost:3001/stats/";
+const API_URL = "https://leetcodeapi.fly.dev/stats/";
 
 const LeetCodeStatsComponent = () => {
   const { username } = useParams<{ username: string }>();
