@@ -60,7 +60,7 @@ const LeetCodeStatsComponent = () => {
   ];
 
   return (
-    <div className="p-6 bg-stone-900 text-white rounded-lg shadow-lg w-[400px] ">
+    <div className="p-6 bg-stone-900 text-white rounded-lg shadow-lg w-lg ">
       <h2 className="text-lg font-semibold mb-4">
         {USERNAME}'s LeetCode Stats
       </h2>
