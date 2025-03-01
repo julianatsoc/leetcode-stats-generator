@@ -124,7 +124,7 @@ const LeetCodeStatsComponent = () => {
       </button>
       <button
         onClick={() => navigate("/")}
-        className="mt-4 bg-stone-500 hover:bg-stone-600 text-white py-2 px-4 rounded"
+        className="mt-4 bg-stone-500 hover:bg-stone-600 text-white py-2 px-4 rounded ml-4"
       >
         Generate another
       </button>
