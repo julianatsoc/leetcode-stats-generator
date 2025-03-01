@@ -20,7 +20,7 @@ const LeetCodeStatsComponent = () => {
     const fetchStats = async () => {
       try {
         const response = await axios.get<LeetCodeStats>(
-          `${API_URL}/${username}`
+          `${API_URL}${username}`
         );
         setStats(response.data);
         setError(null);
