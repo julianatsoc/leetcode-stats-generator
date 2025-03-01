@@ -5,10 +5,12 @@ import { LeetCodeStats } from "../types/LeetCodeStats";
 import ProgressCircle from "./ProgressCircle";
 import CategoryProgress from "./CategoryProgress";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const API_URL = "https://generate.dev.enabled.app.br/stats/";
 
 const LeetCodeStatsComponent = () => {
+  const navigate = useNavigate();
   const { username } = useParams<{ username: string }>();
   const [stats, setStats] = useState<LeetCodeStats | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -119,6 +121,12 @@ const LeetCodeStatsComponent = () => {
         className="mt-4 bg-stone-500 hover:bg-stone-600 text-white py-2 px-4 rounded"
       >
         Export as Image
+      </button>
+      <button
+        onClick={() => navigate("/")}
+        className="mt-4 bg-stone-500 hover:bg-stone-600 text-white py-2 px-4 rounded"
+      >
+        Generate another
       </button>
     </div>
   );
