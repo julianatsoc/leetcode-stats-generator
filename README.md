@@ -1,54 +1,23 @@
-# React + TypeScript + Vite
+# LeetCode Stats Generator 🚀
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project allows users to generate their LeetCode stats and track their progress in different categories. In addition to viewing the stats, users can export them as an image and easily integrate them into their GitHub README or portfolio! 🎨
 
-Currently, two official plugins are available:
+## Features ✨
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **LeetCode Stats Display**: Fetch and display your LeetCode statistics like total solved questions, progress by category (Easy, Medium, Hard), and overall completion percentage.
+- **Export as Image**: Generate an image of your LeetCode stats that can be downloaded and used in your GitHub README or portfolio. 📸
+- **Interactive Design**: Beautiful and responsive UI built using Tailwind CSS. 💅
+- **Easy Navigation**: React Router for smooth navigation between pages.
 
-## Expanding the ESLint configuration
+## Tech Stack 💻
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **React** - Frontend library for building the user interface.
+- **Axios** - For making API requests to fetch LeetCode stats.
+- **html2canvas** - To capture and export the stats as an image.
+- **React Router** - For handling navigation between different routes.
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## API Used 🌐
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+This project consumes an API built and hosted in the repository [LeetCode API](https://github.com/julianatsoc/leetcode-api) to fetch user stats.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+This API provides detailed statistics about a LeetCode user’s solved questions, categorized by difficulty, and their overall progress.
