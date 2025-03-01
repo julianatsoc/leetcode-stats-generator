@@ -3,21 +3,26 @@ import { useNavigate } from "react-router-dom";
 import leetcodelogo from "../assets/leetcodelogo.png";
 
 const FormUserStats = () => {
-  const [username, setUsername] = useState(""); 
+  const [username, setUsername] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault(); 
+    event.preventDefault();
     if (username.trim()) {
-      navigate(`/stats/${username}`); 
+      navigate(`/stats/${username}`);
     }
   };
 
   return (
     <div className="p-8 bg-stone-800 text-white rounded-lg shadow-lg w-lg flex flex-col items-center">
       <img src={leetcodelogo} width={120} alt="LeetCode Logo" />
-      <h2 className="text-lg font-semibold mb-4">Generate your LeetCode Stats</h2>
-      <form onSubmit={handleSubmit} className="flex flex-col items-center w-full">
+      <h2 className="text-lg font-semibold mb-4">
+        Generate your LeetCode Stats
+      </h2>
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col items-center w-full"
+      >
         <input
           type="text"
           id="username"
