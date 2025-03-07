@@ -2,6 +2,9 @@
 
 This project allows users to generate their LeetCode stats and track their progress in different categories. In addition to viewing the stats, users can export them as an image and easily integrate them into their GitHub README or portfolio! 🎨
 
+![Leetcode Generator interface](https://repository-images.githubusercontent.com/940297135/2a4d842c-5db6-41c1-af3a-9999bc44ee96)
+
+
 ## Features ✨
 
 - **LeetCode Stats Display**: Fetch and display your LeetCode statistics like total solved questions, progress by category (Easy, Medium, Hard), and overall completion percentage.
